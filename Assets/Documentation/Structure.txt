@@ -205,9 +205,4 @@ Créé: Mai 2026
 Version: 1.0 - Complète
 Status: ✓ PRÊT À L'EMPLOI
 
-═════════════════════════════════════════════════════════════════de est non fonctionnelle.
-j'aimerais que tu me reface un petit codex intégrallement de tous le fichier de code.
-Bon je voudrait que mon jeu est les même fonctionnalité que celui du jeu PROTOTYPE 2. je dit bien tous le fonctionnalité. Du genre double saut en l'air (bien configuer cette action avec tous le parametre necessaire), capacité de courir sur des mur et tout et tous j'espere que tu vas m'éplouir.
-Verifier parfaitement que tous le code sont bien fonctionnelle.
-Bien vouloir me donner tous les instruction a suivre pour que le jeu soit fonctionnelle car je suis sur un nouveau projet vide (lumiere, caméra).
-NB: si possible tous supprimer tous e fichier de code.
+═════════════════════════════════════════════════════════════════

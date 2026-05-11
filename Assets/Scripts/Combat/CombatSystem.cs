@@ -7,9 +7,9 @@ public class CombatSystem : MonoBehaviour
     [SerializeField] private float attackCooldown = 0.5f;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackPoint;
-    
+
     private float lastAttackTime = 0f;
-    
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackCooldown)
@@ -17,18 +17,18 @@ public class CombatSystem : MonoBehaviour
             Attack();
         }
     }
-    
+
     private void Attack()
     {
         lastAttackTime = Time.time;
-        
+
         // Détecter les ennemis dans la zone d'attaque
         Collider[] hitEnemies = Physics.OverlapSphere(
-            attackPoint != null ? attackPoint.position : transform.position, 
-            attackRange, 
+            attackPoint != null ? attackPoint.position : transform.position,
+            attackRange,
             enemyLayer
         );
-        
+
         foreach (Collider enemy in hitEnemies)
         {
             Health healthComponent = enemy.GetComponent<Health>();
@@ -38,12 +38,12 @@ public class CombatSystem : MonoBehaviour
             }
         }
     }
-    
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(
-            attackPoint != null ? attackPoint.position : transform.position, 
+            attackPoint != null ? attackPoint.position : transform.position,
             attackRange
         );
     }

@@ -83,4 +83,3 @@ gradle-wrapper.properties text eol=lf
 .editorconfig text eol=lf
 .gitignore text eol=lf
 .gitattributes text eol=lf
-*.fbx filter=lfs diff=lfs merge=lfs -text
