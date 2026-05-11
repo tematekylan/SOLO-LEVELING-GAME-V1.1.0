@@ -3,32 +3,45 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Mouvement")]
-    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float moveSpeed = 16.67f; // 60 km/h
     [SerializeField] private float groundDrag = 5f;
     [SerializeField] private float airDrag = 2f;
     
     [Header("Saut")]
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float jumpForce = 12f; // Increased for 50m height
     [SerializeField] private float jumpCooldown = 0.25f;
     [SerializeField] private float airMultiplier = 0.4f;
     private bool canJump = true;
     private int jumpCount = 0;
     private const int maxJumps = 2; // Double saut
+    [SerializeField] private float shockwaveRadius = 10f;
+    [SerializeField] private float shockwaveForce = 500f;
+    [SerializeField] private LayerMask enemyLayer;
+    
+    [Header("Air Dash")]
+    [SerializeField] private float dashSpeed = 22.22f; // 80 km/h
+    [SerializeField] private int maxDashes = 3;
+    private int currentDashes;
+    [SerializeField] private float dashCooldown = 0.5f;
+    private bool canDash = true;
     
     [Header("Détection du sol")]
     [SerializeField] private float groundDrag_value = 5f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundDragDistance = 0.2f;
     private bool isGrounded = false;
+    private bool wasGrounded = false;
     
     [Header("Course sur murs")]
-    [SerializeField] private float wallRunSpeed = 6f;
+    [SerializeField] private float wallRunSpeed = 11.11f; // 40 km/h
     [SerializeField] private float wallRunGravity = 1f;
     [SerializeField] private float wallJumpUpForce = 5f;
     [SerializeField] private float wallJumpSideForce = 3f;
     private bool isWallRunning = false;
     private Vector3 wallNormal = Vector3.zero;
     [SerializeField] private float wallDetectionDistance = 0.5f;
+    [SerializeField] private float maxWallRunHeight = 100f;
+    private float currentWallRunHeight = 0f;
     
     [Header("Composants")]
     private Rigidbody rb;
@@ -46,6 +59,7 @@ public class PlayerController : MonoBehaviour
         
         rb.mass = 1f;
         rb.freezeRotation = true;
+        currentDashes = maxDashes;
     }
     
     private void Update()
@@ -57,6 +71,13 @@ public class PlayerController : MonoBehaviour
         // Détection du sol
         CheckGrounded();
         
+        // Shockwave on landing
+        if (!wasGrounded && isGrounded)
+        {
+            TriggerShockwave();
+        }
+        wasGrounded = isGrounded;
+        
         // Détection des murs
         CheckWallRun();
         
@@ -64,6 +85,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             HandleJump();
+        }
+        
+        // Air Dash
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isGrounded && currentDashes > 0 && canDash)
+        {
+            AirDash();
+        }
+        
+        // Recharge dashes au sol
+        if (isGrounded && currentDashes < maxDashes)
+        {
+            currentDashes = maxDashes;
         }
         
         // Vitesse
@@ -102,15 +135,30 @@ public class PlayerController : MonoBehaviour
             // Raycast à droite
             if (Physics.Raycast(transform.position, rayDirection, out hit, wallDetectionDistance, groundLayer))
             {
-                isWallRunning = true;
-                wallNormal = hit.normal;
+                if (transform.position.y - currentWallRunHeight < maxWallRunHeight)
+                {
+                    isWallRunning = true;
+                    wallNormal = hit.normal;
+                }
             }
             // Raycast à gauche
             else if (Physics.Raycast(transform.position, -rayDirection, out hit, wallDetectionDistance, groundLayer))
             {
-                isWallRunning = true;
-                wallNormal = -hit.normal;
+                if (transform.position.y - currentWallRunHeight < maxWallRunHeight)
+                {
+                    isWallRunning = true;
+                    wallNormal = -hit.normal;
+                }
             }
+        }
+        
+        if (isWallRunning)
+        {
+            currentWallRunHeight = transform.position.y;
+        }
+        else
+        {
+            currentWallRunHeight = 0f;
         }
     }
     
@@ -196,6 +244,41 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearDamping  = airDrag;
         }
+    }
+    
+    private void TriggerShockwave()
+    {
+        // Créer une onde de choc qui stun les ennemis dans le rayon
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, shockwaveRadius, enemyLayer);
+        foreach (Collider hitCollider in hitColliders)
+        {
+            Rigidbody enemyRb = hitCollider.GetComponent<Rigidbody>();
+            if (enemyRb != null)
+            {
+                Vector3 direction = (hitCollider.transform.position - transform.position).normalized;
+                enemyRb.AddForce(direction * shockwaveForce, ForceMode.Impulse);
+            }
+            // TODO: Ajouter stun effect si l'ennemi a un script pour ça
+        }
+        // TODO: Ajouter effet visuel et sonore
+    }
+    
+    private void AirDash()
+    {
+        Vector3 dashDirection = moveDirection.normalized;
+        if (dashDirection == Vector3.zero)
+        {
+            dashDirection = transform.forward;
+        }
+        rb.linearVelocity = dashDirection * dashSpeed;
+        currentDashes--;
+        canDash = false;
+        Invoke(nameof(ResetDash), dashCooldown);
+    }
+    
+    private void ResetDash()
+    {
+        canDash = true;
     }
     
     // Propriétés publiques
