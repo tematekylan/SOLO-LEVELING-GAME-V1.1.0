@@ -35,6 +35,17 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - 📂 Structure prête pour Git
 - 📂 Support pour versions futures
 
+## [1.0.1] - 2026-05-07
+
+### Added
+- ✨ Animation de roulade (shoulder roll) déclenchée par W + Espace
+- ✨ Système de cooldown pour la roulade
+- ✨ Paramètres configurables pour vitesse et durée de roulade
+
+### Documentation
+- 📚 Mise à jour du guide d'animations avec section roulade
+- 📚 Ajout des transitions Animator pour l'état Roll
+
 ---
 
 ## Management de Versions

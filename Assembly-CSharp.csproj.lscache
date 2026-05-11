@@ -52,10 +52,21 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 [sourceFiles]
 Assets/
  Input/PlayerInput.cs
+ Scripts/Animation/
+  AnimationController.cs
+  AnimationMapper.cs
  Scripts/
-  Animation/AnimationController.cs
   Camera/CameraController.cs
-  Combat/CombatSystem.cs
+  Combat/
+   AbilityManager.cs
+   AbsorptionAbility.cs
+   BioBombAbility.cs
+   CombatSystem.cs
+   Dagger.cs
+   DaggerCombat.cs
+   DaggerInventory.cs
+   SonarAbility.cs
+   TendrilsAbility.cs
   Config/GameConfig.cs
   Enemy/EnemyAI.cs
   Game/GameManager.cs
@@ -63,7 +74,9 @@ Assets/
   Input/InputManager.cs
   Player/PlayerController.cs
   Setup/QuickSetup.cs
-  UI/UIManager.cs
+  UI/
+   InventoryManager.cs
+   UIManager.cs
  Settings/TutorialInfo/Scripts/Readme.cs
 Temp/obj/Assembly-CSharp/.NETStandard,Version=v2.1.AssemblyAttributes.cs
 

@@ -1,4 +1,4 @@
-# GUIDE DE CONFIGURATION - PROTOTYPE 2 STYLE GAME
+# GUIDE DE CONFIGURATION - SOLO LEVELING AVEC POUVOIRS JAMES HELLER
 
 ## 📋 ÉTAPE 1: PRÉPARATION DE LA SCÈNE
 
@@ -48,16 +48,24 @@
 ### 2.3 Ajouter les scripts du joueur
 1. Cliquer Add Component > Script > PlayerController
 2. Configurer les paramètres dans l'Inspecteur:
-   - Move Speed: 7
+   - Move Speed: 16.67 (60 km/h)
    - Ground Drag: 5
    - Air Drag: 2
-   - Jump Force: 5
-   - Wall Run Speed: 6
+   - Jump Force: 12
+   - Wall Run Speed: 11.11 (40 km/h)
    - Wall Run Gravity: 1
    - Wall Jump Up Force: 5
    - Wall Jump Side Force: 3
    - Ground Layer: Ground
    - Wall Detection Distance: 0.5
+   - Shockwave Radius: 10
+   - Shockwave Force: 500
+   - Enemy Layer: Enemy
+   - Dash Speed: 22.22 (80 km/h)
+   - Max Dashes: 3
+   - Dash Cooldown: 0.5
+   - Sprint Multiplier: 1.5
+   - Max Wall Run Height: 100
 
 3. Cliquer Add Component > Script > Health
 4. Configurer:
@@ -65,10 +73,53 @@
 
 5. Cliquer Add Component > Script > CombatSystem
 6. Configurer:
-   - Attack Range: 2
-   - Attack Damage: 10
+   - Attack Range: 3
+   - Attack Damage: 200
    - Attack Cooldown: 0.5
    - Enemy Layer: Enemy
+
+### 2.3.1 Ajouter les pouvoirs de James Heller (NOUVEAU)
+1. Cliquer Add Component > Script > TendrilsAbility
+2. Configurer:
+   - Range: 15
+   - Grab Damage: 50
+   - Whip Damage: 100
+   - Whip Radius: 10
+   - Cooldown: 2
+   - Enemy Layer: Enemy
+   - Destructible Layer: Ground
+
+3. Cliquer Add Component > Script > BioBombAbility
+4. Configurer:
+   - Range: 5
+   - Explosion Delay: 3
+   - Explosion Radius: 15
+   - Explosion Damage: 1000
+   - Cooldown: 10
+   - Enemy Layer: Enemy
+
+4. Cliquer Add Component > Script > AbsorptionAbility
+5. Configurer:
+   - Range: 5
+   - Absorb Time: 1
+   - Heal Amount: 100
+   - Cooldown: 5
+   - Enemy Layer: Enemy
+
+5. Cliquer Add Component > Script > SonarAbility
+6. Configurer:
+   - Range: 200
+   - Highlight Duration: 10
+   - Cooldown: 20
+   - Enemy Layer: Enemy
+   - Objective Layer: Ground
+
+6. Cliquer Add Component > Script > AbilityManager
+7. Configurer:
+   - Tendrils Ability: lier le script TendrilsAbility
+   - Bio Bomb Ability: lier le script BioBombAbility
+   - Absorption Ability: lier le script AbsorptionAbility
+   - Sonar Ability: lier le script SonarAbility
 
 ### 2.4 Créer la caméra enfant
 1. Dans la hiérarchie, créer un nouveau Cube enfant du Player
@@ -231,8 +282,14 @@
 2. Tester les contrôles:
    - Z/S et A/D: se déplacer
    - Espace: sauter (2 fois pour double saut)
+   - Shift (au sol): Sprinter
+   - Shift (en l'air): Air Dash (3 charges)
    - Souris: regarder autour
-   - Clic gauche: attaquer
+   - Clic gauche: attaquer (combos griffes)
+   - E: Tendacules (grab/whip)
+   - Q: Bio-Bombe (injection virale)
+   - R: Absorption (consommer ennemi)
+   - F: Sonar (détection)
    - Échap: déverrouiller la souris
    - R: recharger la scène
 

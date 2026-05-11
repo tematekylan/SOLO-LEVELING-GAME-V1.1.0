@@ -13,8 +13,12 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Health health;
     private Transform playerTransform;
+    private Health playerHealth;
     private int currentPatrolIndex = 0;
     private bool isChasing = false;
+    [SerializeField] private float attackDamage = 10f;
+    [SerializeField] private float attackCooldown = 1.5f;
+    private float lastAttackTime = 0f;
 
     private void Start()
     {
@@ -27,6 +31,7 @@ public class EnemyAI : MonoBehaviour
         }
 
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        playerHealth = playerTransform != null ? playerTransform.GetComponent<Health>() : null;
 
         if (patrolPoints.Length == 0)
         {
@@ -44,6 +49,13 @@ public class EnemyAI : MonoBehaviour
         float distanceToPlayer = playerTransform != null ?
             Vector3.Distance(transform.position, playerTransform.position) : float.MaxValue;
 
+        if (playerTransform != null && distanceToPlayer < attackRange)
+        {
+            isChasing = true;
+            AttackPlayer();
+            return;
+        }
+
         if (distanceToPlayer < detectionRange && playerTransform != null)
         {
             isChasing = true;
@@ -58,12 +70,25 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasePlayer(float distanceToPlayer)
     {
+        navMeshAgent.isStopped = false;
         navMeshAgent.speed = chaseSpeed;
         navMeshAgent.SetDestination(playerTransform.position);
 
         // Face le joueur
         Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(directionToPlayer);
+    }
+
+    private void AttackPlayer()
+    {
+        navMeshAgent.isStopped = true;
+        transform.rotation = Quaternion.LookRotation((playerTransform.position - transform.position).normalized);
+
+        if (Time.time - lastAttackTime >= attackCooldown && playerHealth != null)
+        {
+            playerHealth.TakeDamage(attackDamage);
+            lastAttackTime = Time.time;
+        }
     }
 
     private void Patrol()

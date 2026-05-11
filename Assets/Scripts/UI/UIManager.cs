@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour 
+public class UIManager : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
     [SerializeField] private TextMeshProUGUI healthText;
@@ -10,15 +10,27 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI jumpCountText;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Health playerHealth;
-    
+
     private void Start()
     {
+        if (playerHealth == null || playerController == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                if (playerHealth == null)
+                    playerHealth = player.GetComponent<Health>();
+                if (playerController == null)
+                    playerController = player.GetComponent<PlayerController>();
+            }
+        }
+
         if (playerHealth != null)
         {
             playerHealth.OnHealthChanged += UpdateHealthUI;
         }
     }
-    
+
     private void Update()
     {
         if (playerController != null)
@@ -27,20 +39,20 @@ public class UIManager : MonoBehaviour
             UpdateJumpUI();
         }
     }
-    
+
     private void UpdateHealthUI(float health, float maxHealth)
     {
         if (healthBar != null)
         {
             healthBar.fillAmount = health / maxHealth;
         }
-        
+
         if (healthText != null)
         {
             healthText.text = $"Health: {health:F0}/{maxHealth:F0}";
         }
     }
-    
+
     private void UpdateSpeedUI()
     {
         if (speedText != null)
@@ -49,20 +61,20 @@ public class UIManager : MonoBehaviour
             speedText.text = $"Speed: {speed:F1}";
         }
     }
-    
+
     private void UpdateJumpUI()
     {
         if (jumpCountText != null)
         {
             jumpCountText.text = $"Sauts: {playerController.JumpCount}/2";
-            
+
             if (playerController.IsWallRunning)
             {
                 jumpCountText.text += " (Wall Run)";
             }
         }
     }
-    
+
     private void OnDestroy()
     {
         if (playerHealth != null)
