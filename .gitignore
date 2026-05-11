@@ -1,0 +1,94 @@
+# Build results
+/Build/
+/Builds/
+*.exe
+*.apk
+*.ipa
+*.app
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.user
+*.userprefs
+*.potx
+*.pptx
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Unity cache files
+/Library/
+/obj/
+/Temp/
+/Logs/
+/UserSettings/
+
+# Generated meta files
+*.meta
+
+# User-specific files
+/Assets/Plugins/Android/
+/Assets/Imported/
+/Assets/Models/
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+*.suo
+*.sln.DotSettings
+
+# Local history
+.localhistory/
+
+# BVE files
+*.bak
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Dependencies
+/Assets/Plugins/
+!/Assets/Plugins/*/
+
+# Only include non-platform specific files
+/Assets/StreamingAssets/
+!/Assets/StreamingAssets/**
+
+# Specific to this project
+*.orig
+.gradle/
+local.properties
+/build/
+/captures/
+.externalNativeBuild/
+
+# Ignore large files
+*.asset[0-9]
+*.unitypackage
+
+# Git LFS pointers (if using Git LFS)
+# **/.*
+
+# Lock files (optional - uncomment if you want to include them)
+# packages-lock.json
+# Packages/packages-lock.json
+Assets/Models/Player/Ch15_nonPBR@Walking.fbx
