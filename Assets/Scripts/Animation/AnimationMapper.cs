@@ -117,7 +117,7 @@ public class AnimationMapper : MonoBehaviour
             return;
         }
 
-        if (animator.HasParameter(animationName))
+        if (HasParameter(animationName))
         {
             animator.SetTrigger(animationName);
         }
@@ -125,6 +125,20 @@ public class AnimationMapper : MonoBehaviour
         {
             Debug.LogWarning($"Animation '{animationName}' non trouvée dans l'Animator!");
         }
+    }
+
+    private bool HasParameter(string parameterName)
+    {
+        if (animator == null)
+            return false;
+
+        foreach (var parameter in animator.parameters)
+        {
+            if (parameter.name == parameterName)
+                return true;
+        }
+
+        return false;
     }
 
     // Getter pour les noms d'animation (pour la configuration UI)

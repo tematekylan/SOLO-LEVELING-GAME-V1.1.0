@@ -1,4 +1,4 @@
-# 📅 EMPLOI DU TEMPS — Réalisation du projet Solo Leveling
+# 📅 EMPLOI DU TEMPS — Réalisation du projet Solo Leveling Game
 
 ## 🎯 Vue d'ensemble
 
